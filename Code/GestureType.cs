@@ -17,7 +17,7 @@ namespace Kinect.GoogleEarth
     public enum GestureType
     {
         //Init for Zoom in or out
-        ZoomInit
+        ZoomInInit
 
 
 
