@@ -11,12 +11,13 @@ namespace Kinect.GoogleEarth
         Succeed,
 
         // Gesture undetermined
-        Pondering 
+        Pausing  
 	}
 
     public enum GestureType
     {
-
+        //Init for Zoom in or out
+        ZoomInit
 
 
 
