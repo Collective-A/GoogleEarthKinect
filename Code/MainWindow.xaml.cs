@@ -59,6 +59,7 @@ namespace kinect_sdk_example
             Thread.Sleep(5000);
         }
 
+
         private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
             Skeleton first = GetFirstSkeleton(e);
@@ -68,8 +69,15 @@ namespace kinect_sdk_example
             RotateLeftOverRight rotateLR = new RotateLeftOverRight();
             RotateRightOverLeft rotateRL = new RotateRightOverLeft();
 
-            // page0, page1, cntrl2, left3, right4, up5, down6
-            int[] keys = { 0x22, 0x21, 0xA2, 0x25, 0x27, 0x26, 0x28 };
+            const int VK_PG1 = 0x22;
+            const int VK_PG2 = 0x21;
+            const int VK_CNTL = 0xA2;
+            const int VK_LFT = 0x25;
+            const int VK_RGT = 0x27;
+            const int VK_UP = 0x26;
+            const int VK_DWN = 0x28;
+
+            int[] keys = { VK_PG1, VK_PG2, VK_CNTL, VK_LFT, VK_RGT, VK_UP, VK_DWN };
 
             foreach (int key in keys)
                 KeyPressEmulator.setKeyPressed(key, false);
@@ -77,30 +85,30 @@ namespace kinect_sdk_example
             // TODO: Changed GesturePartResult to GestureResult
             if (handsOut.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(keys[0], true);
-                Console.WriteLine("Detected zoom in");
+                KeyPressEmulator.setKeyPressed(VK_PG1, true);
+                //Console.WriteLine("Detected zoom in");
 
             }
             else if (handsIn.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(keys[1], true);
-                Console.WriteLine("Detected zoom out");
+                KeyPressEmulator.setKeyPressed(VK_PG2, true);
+                //Console.WriteLine("Detected zoom out");
             }
             else if (rotateLR.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(keys[2], true);
-                KeyPressEmulator.setKeyPressed(keys[4], true);
-                Console.WriteLine("Detected rotate CW");
+                KeyPressEmulator.setKeyPressed(VK_CNTL, true);
+                KeyPressEmulator.setKeyPressed(VK_RGT, true);
+                //Console.WriteLine("Detected rotate CW");
             }
             else if (rotateRL.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(keys[2], true);
-                KeyPressEmulator.setKeyPressed(keys[3], true);
-                Console.WriteLine("Detected rotate CCW");
+                KeyPressEmulator.setKeyPressed(VK_CNTL, true);
+                KeyPressEmulator.setKeyPressed(VK_LFT, true);
+                //Console.WriteLine("Detected rotate CCW");
             }
             else
             {
-                Console.WriteLine("Nothing detected");
+                //Console.WriteLine("Nothing detected");
             }
 
 
