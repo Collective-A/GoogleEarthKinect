@@ -7,6 +7,6 @@ namespace Kinect.GoogleEarth
 {
 	public interface BaseGesture
 	{
-        
+        GestureResult CheckGesture(Skeleton skeleton);
 	}
 }
