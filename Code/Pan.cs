@@ -16,7 +16,7 @@ namespace Kinect.GoogleEarth
             }
 
             if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ShoulderRight].Position.Y &&
-                skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.WaistLeft].Position.Y)
+                skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y)
             {
                 return GestureResult.Succeed;
             }
