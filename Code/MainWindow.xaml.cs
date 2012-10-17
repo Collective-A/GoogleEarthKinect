@@ -31,10 +31,9 @@ namespace kinect_sdk_example
             // Init window
             // TODO: Make windows not open at all
             InitializeComponent();
-
             // Fail silently if no kinect
-            if (KinectSensor.KinectSensors.Count == 0)
-                return;
+            //if (KinectSensor.KinectSensors.Count == 0)
+            //    return;
 
             kinect = KinectSensor.KinectSensors[0];
 
@@ -69,14 +68,39 @@ namespace kinect_sdk_example
         {
             Skeleton first = GetFirstSkeleton(e);
 
-            ZoomInit zoomInit = new ZoomInit();
+            HandsOut handsOut = new HandsOut();
+            HandsIn handsIn = new HandsIn();
+            RotateLeftOverRight rotateLR = new RotateLeftOverRight();
+            RotateRightOverLeft rotateRL = new RotateRightOverLeft();
+
+            int[] keys = { 0x22, 0x21 };
+
+            foreach (int key in keys)
+                KeyPressEmulator.setKeyPressed(key, false);
 
             // TODO: Changed GesturePartResult to GestureResult
-            if (zoomInit.CheckGesture(first) == GestureResult.Succeed)
+            if (handsOut.CheckGesture(first) == GestureResult.Succeed)
             {
+                KeyPressEmulator.setKeyPressed(keys[0], true);
+                Console.WriteLine("Detected zoom in");
 
-                //Do something
-
+            }
+            else if (handsIn.CheckGesture(first) == GestureResult.Succeed)
+            {
+                KeyPressEmulator.setKeyPressed(keys[1], true);
+                Console.WriteLine("Detected zoom out");
+            }
+            else if (rotateLR.CheckGesture(first) == GestureResult.Succeed)
+            {
+                Console.WriteLine("Detected rotate CW");
+            }
+            else if (rotateRL.CheckGesture(first) == GestureResult.Succeed)
+            {
+                Console.WriteLine("Detected rotate CCW");
+            }
+            else
+            {
+                Console.WriteLine("Nothing detected");
             }
 
 
