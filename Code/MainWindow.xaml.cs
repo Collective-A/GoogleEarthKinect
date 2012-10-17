@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Kinect;
+using System.Diagnostics;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace kinect_sdk_example
 {
@@ -26,14 +29,16 @@ namespace kinect_sdk_example
         {
             InitializeComponent();
             //Kinectの初期化
-            kinect = KinectSensor.KinectSensors[0];
+            //kinect = KinectSensor.KinectSensors[0];
 
             //イベントハンドラの登録
-            kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(handler_SkeletonFrameReady);
+            //kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(handler_SkeletonFrameReady);
             //骨格トラッキングの有効化
-            kinect.SkeletonStream.Enable();
+            //kinect.SkeletonStream.Enable();
 
-            kinect.Start();
+            //kinect.Start();
+            KeyPressEmulator.setKeyPressed(0x27, true);
+
         }
 
         void handler_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e) {
