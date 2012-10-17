@@ -73,7 +73,8 @@ namespace kinect_sdk_example
             RotateLeftOverRight rotateLR = new RotateLeftOverRight();
             RotateRightOverLeft rotateRL = new RotateRightOverLeft();
 
-            int[] keys = { 0x22, 0x21 };
+            // page0, page1, cntrl2, left3, right4, up5, down6
+            int[] keys = { 0x22, 0x21, 0xA2, 0x25, 0x27, 0x26, 0x28 };
 
             foreach (int key in keys)
                 KeyPressEmulator.setKeyPressed(key, false);
@@ -92,10 +93,14 @@ namespace kinect_sdk_example
             }
             else if (rotateLR.CheckGesture(first) == GestureResult.Succeed)
             {
+                KeyPressEmulator.setKeyPressed(keys[2], true);
+                KeyPressEmulator.setKeyPressed(keys[4], true);
                 Console.WriteLine("Detected rotate CW");
             }
             else if (rotateRL.CheckGesture(first) == GestureResult.Succeed)
             {
+                KeyPressEmulator.setKeyPressed(keys[2], true);
+                KeyPressEmulator.setKeyPressed(keys[3], true);
                 Console.WriteLine("Detected rotate CCW");
             }
             else
