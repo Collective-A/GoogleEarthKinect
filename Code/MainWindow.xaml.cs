@@ -15,6 +15,7 @@ using Microsoft.Kinect;
 using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
+using Kinect.GoogleEarth;
 
 namespace kinect_sdk_example
 {
@@ -27,16 +28,33 @@ namespace kinect_sdk_example
 
         public MainWindow()
         {
+            // Init window
+            // TODO: Make windows not open at all
             InitializeComponent();
-            //Kinectの初期化
-            //kinect = KinectSensor.KinectSensors[0];
 
-            //イベントハンドラの登録
+            // Fail silently if no kinect
+            if (KinectSensor.KinectSensors.Count == 0)
+                return;
+
+            kinect = KinectSensor.KinectSensors[0];
+
+            // From Japanese base project
+            // - - - - -
             //kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(handler_SkeletonFrameReady);
-            //骨格トラッキングの有効化
-            //kinect.SkeletonStream.Enable();
+            // - - - - -
 
-            //kinect.Start();
+            // Add the looper handler to the kinect
+            kinect.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(sensor_AllFramesReady);
+
+            // Enable listening for skeletons
+            kinect.SkeletonStream.Enable();
+
+            // Start listening
+            kinect.Start();
+        }
+
+        private void testZoomInAndOutKeys()
+        {
             KeyPressEmulator.setKeyPressed(0x21, true);
             Thread.Sleep(5000);
             KeyPressEmulator.setKeyPressed(0x21, false);
@@ -45,42 +63,72 @@ namespace kinect_sdk_example
             Thread.Sleep(5000);
             KeyPressEmulator.setKeyPressed(0x22, false);
             Thread.Sleep(5000);
-            //KeyPressEmulator.setKeyPressed(0x25, true);
-            //Thread.Sleep(5000);
-            //KeyPressEmulator.setKeyPressed(0x25, false);
-            //Thread.Sleep(5000);
-            //KeyPressEmulator.setKeyPressed(0x10, true);
-            //KeyPressEmulator.setKeyPressed(0x27, true);
-            //KeyPressEmulator.setKeyPressed(0x10, false);
-            //Thread.Sleep(5000);
-            //KeyPressEmulator.setKeyPressed(0x27, false);
+        }
+
+        private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
+        {
+            Skeleton first = GetFirstSkeleton(e);
+
+            ZoomInit zoomInit = new ZoomInit();
+
+            // TODO: Changed GesturePartResult to GestureResult
+            if (zoomInit.CheckGesture(first) == GestureResult.Succeed)
+            {
+
+                //Do something
+
+            }
 
 
 
         }
 
-        void handler_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e) {
-            SkeletonFrame temp = e.OpenSkeletonFrame();
-            if (temp != null)
+        private Skeleton GetFirstSkeleton(AllFramesReadyEventArgs e)
+        {
+            using (SkeletonFrame skeletonFrameData = e.OpenSkeletonFrame())
             {
-                Skeleton[] skeletonData = new Skeleton[temp.SkeletonArrayLength];
-                temp.CopySkeletonDataTo(skeletonData);
-                SkelPoints.Text = "";
-                foreach (Skeleton skeleton in skeletonData)
+                if (skeletonFrameData == null)
                 {
-                    if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
-                    {
-                        foreach (Joint joint in skeleton.Joints)
-                        {
-                            SkelPoints.Text += joint.JointType.ToString() + "\t";
-                            SkelPoints.Text += joint.Position.X + "\t";
-                            SkelPoints.Text += joint.Position.Y + "\t";
-                            SkelPoints.Text += joint.Position.Z + "\n";
-
-                        }
-                    }
+                    return null;
                 }
+
+                Skeleton[] allSkeletons = new Skeleton[6];
+                skeletonFrameData.CopySkeletonDataTo(allSkeletons);
+
+                //get first skeleton tracked
+                Skeleton first = (from s in allSkeletons
+                                  where s.TrackingState == SkeletonTrackingState.Tracked
+                                  select s).FirstOrDefault();
+                return first;
             }
         }
+
+        
+        /**TODO: Delete Japanese code 
+         * 
+         */
+        //void handler_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e) {
+        //    SkeletonFrame temp = e.OpenSkeletonFrame();
+        //    if (temp != null)
+        //    {
+        //        Skeleton[] skeletonData = new Skeleton[temp.SkeletonArrayLength];
+        //        temp.CopySkeletonDataTo(skeletonData);
+        //        SkelPoints.Text = "";
+        //        foreach (Skeleton skeleton in skeletonData)
+        //        {
+        //            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+        //            {
+        //                foreach (Joint joint in skeleton.Joints)
+        //                {
+        //                    SkelPoints.Text += joint.JointType.ToString() + "\t";
+        //                    SkelPoints.Text += joint.Position.X + "\t";
+        //                    SkelPoints.Text += joint.Position.Y + "\t";
+        //                    SkelPoints.Text += joint.Position.Z + "\n";
+
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
