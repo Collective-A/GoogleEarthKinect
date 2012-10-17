@@ -94,19 +94,19 @@ namespace kinect_sdk_example
             }
             else if (panUp.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(VK_UP, true);
+                KeyPressEmulator.setKeyPressed(VK_DWN, true);
             }
             else if (panDown.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(VK_DWN, true);
+                KeyPressEmulator.setKeyPressed(VK_UP, true);
             }
             else if (panRight.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(VK_RGT, true);
+                KeyPressEmulator.setKeyPressed(VK_LFT, true);
             }
             else if (panLeft.CheckGesture(first) == GestureResult.Succeed)
             {
-                KeyPressEmulator.setKeyPressed(VK_LFT, true);
+                KeyPressEmulator.setKeyPressed(VK_RGT, true);
             }
         }
 

@@ -6,16 +6,19 @@ using Microsoft.Kinect;
 
 namespace Kinect.GoogleEarth
 {
+
     class PanUp : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+
+
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
                 return GestureResult.Fail;
             }
 
-            if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ShoulderRight].Position.Y &&
+            if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ShoulderRight].Position.Y * BaseGesture.PAN_PADDING_SCALE &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y)
             {
                 return GestureResult.Succeed;
@@ -28,16 +31,16 @@ namespace Kinect.GoogleEarth
 
     class PanDown : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
                 return GestureResult.Fail;
             }
 
-            if (skeleton.Joints[JointType.HandRight].Position.Y < skeleton.Joints[JointType.ShoulderRight].Position.Y &&
+            if (skeleton.Joints[JointType.HandRight].Position.Y * BaseGesture.PAN_PADDING_SCALE < skeleton.Joints[JointType.ShoulderRight].Position.Y &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y && 
-                skeleton.Joints[JointType.HandRight].Position.Y < skeleton.Joints[JointType.ElbowRight].Position.Y)
+                skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y)
             {
                 return GestureResult.Succeed;
             }
@@ -49,14 +52,14 @@ namespace Kinect.GoogleEarth
 
     class PanRight : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
                 return GestureResult.Fail;
             }
 
-            if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X &&
+            if (skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X * BaseGesture.PAN_PADDING_SCALE &&
                 skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y) 
             {
@@ -70,14 +73,14 @@ namespace Kinect.GoogleEarth
 
     class PanLeft : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
                 return GestureResult.Fail;
             }
 
-            if (skeleton.Joints[JointType.HandRight].Position.X < skeleton.Joints[JointType.ShoulderRight].Position.X &&
+            if (skeleton.Joints[JointType.HandRight].Position.X * BaseGesture.PAN_PADDING_SCALE < skeleton.Joints[JointType.ShoulderRight].Position.X &&
                 skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y)
             {

@@ -8,7 +8,7 @@ namespace Kinect.GoogleEarth
 {
     class HandsOut : BaseGesture
 	{
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
@@ -34,7 +34,7 @@ namespace Kinect.GoogleEarth
 
     class HandsIn : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {

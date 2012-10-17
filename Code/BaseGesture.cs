@@ -5,8 +5,10 @@ using Microsoft.Kinect;
 
 namespace Kinect.GoogleEarth
 {
-	public interface BaseGesture
+	public abstract class BaseGesture
 	{
-        GestureResult CheckGesture(Skeleton skeleton);
+        public const float PAN_PADDING_SCALE = 1.7f;
+
+        abstract public GestureResult CheckGesture(Skeleton skeleton);
 	}
 }

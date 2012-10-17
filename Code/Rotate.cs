@@ -8,7 +8,7 @@ namespace Kinect.GoogleEarth
 {
     class RotateLeftOverRight : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
@@ -34,7 +34,7 @@ namespace Kinect.GoogleEarth
 
     class RotateRightOverLeft : BaseGesture
     {
-        public GestureResult CheckGesture(Skeleton skeleton)
+        override public GestureResult CheckGesture(Skeleton skeleton)
         {
             if (skeleton == null)
             {
