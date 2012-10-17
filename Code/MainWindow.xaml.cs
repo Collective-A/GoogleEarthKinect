@@ -37,11 +37,6 @@ namespace kinect_sdk_example
 
             kinect = KinectSensor.KinectSensors[0];
 
-            // From Japanese base project
-            // - - - - -
-            //kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(handler_SkeletonFrameReady);
-            // - - - - -
-
             // Add the looper handler to the kinect
             kinect.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(sensor_AllFramesReady);
 
@@ -131,33 +126,5 @@ namespace kinect_sdk_example
                 return first;
             }
         }
-
-        
-        /**TODO: Delete Japanese code 
-         * 
-         */
-        //void handler_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e) {
-        //    SkeletonFrame temp = e.OpenSkeletonFrame();
-        //    if (temp != null)
-        //    {
-        //        Skeleton[] skeletonData = new Skeleton[temp.SkeletonArrayLength];
-        //        temp.CopySkeletonDataTo(skeletonData);
-        //        SkelPoints.Text = "";
-        //        foreach (Skeleton skeleton in skeletonData)
-        //        {
-        //            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
-        //            {
-        //                foreach (Joint joint in skeleton.Joints)
-        //                {
-        //                    SkelPoints.Text += joint.JointType.ToString() + "\t";
-        //                    SkelPoints.Text += joint.Position.X + "\t";
-        //                    SkelPoints.Text += joint.Position.Y + "\t";
-        //                    SkelPoints.Text += joint.Position.Z + "\n";
-
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
