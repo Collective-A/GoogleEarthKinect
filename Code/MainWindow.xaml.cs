@@ -38,6 +38,8 @@ namespace kinect_sdk_example
 
             //kinect.Start();
             KeyPressEmulator.setKeyPressed(0x27, true);
+            Thread.Sleep(5000);
+            KeyPressEmulator.setKeyPressed(0x27, false);
 
         }
 
