@@ -37,9 +37,25 @@ namespace kinect_sdk_example
             //kinect.SkeletonStream.Enable();
 
             //kinect.Start();
-            KeyPressEmulator.setKeyPressed(0x27, true);
+            KeyPressEmulator.setKeyPressed(0x21, true);
             Thread.Sleep(5000);
-            KeyPressEmulator.setKeyPressed(0x27, false);
+            KeyPressEmulator.setKeyPressed(0x21, false);
+            Thread.Sleep(5000);
+            KeyPressEmulator.setKeyPressed(0x22, true);
+            Thread.Sleep(5000);
+            KeyPressEmulator.setKeyPressed(0x22, false);
+            Thread.Sleep(5000);
+            //KeyPressEmulator.setKeyPressed(0x25, true);
+            //Thread.Sleep(5000);
+            //KeyPressEmulator.setKeyPressed(0x25, false);
+            //Thread.Sleep(5000);
+            //KeyPressEmulator.setKeyPressed(0x10, true);
+            //KeyPressEmulator.setKeyPressed(0x27, true);
+            //KeyPressEmulator.setKeyPressed(0x10, false);
+            //Thread.Sleep(5000);
+            //KeyPressEmulator.setKeyPressed(0x27, false);
+
+
 
         }
 
