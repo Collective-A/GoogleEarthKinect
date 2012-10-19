@@ -38,7 +38,7 @@ namespace Kinect.GoogleEarth
                 return GestureResult.Fail;
             }
 
-            if (skeleton.Joints[JointType.HandRight].Position.Y * BaseGesture.PAN_PADDING_SCALE < skeleton.Joints[JointType.ShoulderRight].Position.Y &&
+            if (skeleton.Joints[JointType.HandRight].Position.Y < (skeleton.Joints[JointType.ShoulderRight].Position.Y + skeleton.Joints[JointType.HipRight].Position.Y)/2 &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y && 
                 skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y)
             {

@@ -17,6 +17,8 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using Kinect.GoogleEarth;
 using System.IO;
+using System.Speech.AudioFormat;
+using System.Speech.Recognition;
 
 namespace kinect_sdk_example
 {
@@ -44,6 +46,32 @@ namespace kinect_sdk_example
                 Console.WriteLine("Couldn't find a Kinect");
                 return;
             }
+            
+            /*
+            #region Speech Reco
+            RecognizerInfo ri = GetKinectRecognizer();
+
+            if (null != ri)
+            {
+                ri.speechEngine = new SpeechRecognitionEngine(ri.Id);
+
+                // Create a grammar from grammar definition XML file.
+                using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.SpeechGrammar)))
+                {
+                    var g = new Grammar(memoryStream);
+                    speechEngine.LoadGrammar(g);
+                }
+
+                speechEngine.SpeechRecognized += SpeechRecognized;
+                speechEngine.SpeechRecognitionRejected += SpeechRejected;
+
+                speechEngine.SetInputToAudioStream(
+                    sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+            }
+
+            #endregion
+             * */
 
             kinect = KinectSensor.KinectSensors[0];
 
@@ -55,6 +83,18 @@ namespace kinect_sdk_example
 
             // Start listening
             kinect.Start();
+        }
+
+        private static RecognizerInfo GetKinectRecognizer()
+        {
+            Func<RecognizerInfo, bool> matchingFunc = r =>
+            {
+                string value;
+                r.AdditionalInfo.TryGetValue("Kinect", out value);
+                return "True".Equals(value, StringComparison.InvariantCultureIgnoreCase)
+                    && "en-US".Equals(r.Culture.Name, StringComparison.InvariantCultureIgnoreCase);
+            };
+            return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
         }
 
         private void CallCommandLine(string process, string arguments)
@@ -133,6 +173,8 @@ namespace kinect_sdk_example
                 }
             }
         }
+
+
 
         private Skeleton GetFirstSkeleton(AllFramesReadyEventArgs e)
         {
