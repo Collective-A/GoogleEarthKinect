@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
 using Kinect.GoogleEarth;
+using System.IO;
 
 namespace kinect_sdk_example
 {
@@ -25,15 +26,24 @@ namespace kinect_sdk_example
     public partial class MainWindow : Window
     {
         KinectSensor kinect;
+        string mediaPath;
 
         public MainWindow()
         {
             // Init window
             // TODO: Make windows not open at all
-            InitializeComponent();
+            this.InitializeComponent();
+            mediaPath = Directory.GetCurrentDirectory();
+        }
+
+        private void LaunchKinect()
+        {
             // Fail silently if no kinect
-            //if (KinectSensor.KinectSensors.Count == 0)
-            //    return;
+            if (KinectSensor.KinectSensors.Count == 0)
+            {
+                Console.WriteLine("Couldn't find a Kinect");
+                return;
+            }
 
             kinect = KinectSensor.KinectSensors[0];
 
@@ -45,6 +55,45 @@ namespace kinect_sdk_example
 
             // Start listening
             kinect.Start();
+        }
+
+        private void CallCommandLine(string process, string arguments)
+        {
+            System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
+            pProcess.StartInfo.FileName = process;
+            pProcess.StartInfo.Arguments = arguments;
+            pProcess.StartInfo.UseShellExecute = false;
+            Console.WriteLine(process + " " + arguments);
+            pProcess.Start();
+        }
+
+        private void ClickPan(object sender, System.Windows.RoutedEventArgs e)
+        {
+            string panFilename = "jingles.mp4";
+            CallCommandLine("\"C:\\Program Files\\Windows Media Player\\wmplayer.exe\"", String.Format("/play \"{0}\\{1}\"", mediaPath, panFilename));
+        }
+
+        private void ClickZoom(object sender, System.Windows.RoutedEventArgs e)
+        {
+            string zoomFilename = "jingles.mp4";
+            CallCommandLine("\"C:\\Program Files\\Windows Media Player\\wmplayer.exe\"", String.Format("/play \"{0}\\{1}\"", mediaPath, zoomFilename));
+        }
+
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private void ClickOkay(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Process[] processes = Process.GetProcessesByName("googleearth");
+            if (processes.Length == 0)
+            {
+                CallCommandLine(@"C:\Program Files (x86)\Google\Google Earth\client\googleearth.exe", String.Empty);
+            }
+            else
+            {
+                SetForegroundWindow(processes[0].MainWindowHandle);
+            }
+            LaunchKinect();
         }
 
         private void testZoomInAndOutKeys()
@@ -64,49 +113,24 @@ namespace kinect_sdk_example
         {
             Skeleton first = GetFirstSkeleton(e);
 
-            HandsOut handsOut = new HandsOut();
-            HandsIn handsIn = new HandsIn();
-            PanUp panUp = new PanUp();
-            PanDown panDown = new PanDown();
-            PanRight panRight = new PanRight();
-            PanLeft panLeft = new PanLeft();
+            Dictionary<BaseGesture, int> gestures = new Dictionary<BaseGesture, int>();
+            gestures.Add(new HandsOut(), 0x22);
+            gestures.Add(new HandsIn(), 0x21);
+            gestures.Add(new PanUp(), 0x26);
+            gestures.Add(new PanDown(), 0x28);
+            gestures.Add(new PanLeft(), 0x25);
+            gestures.Add(new PanRight(), 0x27);
 
-            const int VK_PG1 = 0x22;
-            const int VK_PG2 = 0x21;
-            const int VK_CNTL = 0xA2;
-            const int VK_LFT = 0x25;
-            const int VK_RGT = 0x27;
-            const int VK_UP = 0x26;
-            const int VK_DWN = 0x28;
+            foreach (BaseGesture gesture in gestures.Keys)
+                KeyPressEmulator.setKeyPressed(gestures[gesture], false);
 
-            int[] keys = { VK_PG1, VK_PG2, VK_CNTL, VK_LFT, VK_RGT, VK_UP, VK_DWN };
-
-            foreach (int key in keys)
-                KeyPressEmulator.setKeyPressed(key, false);
-
-            if (handsOut.CheckGesture(first) == GestureResult.Succeed)
+            foreach (BaseGesture gesture in gestures.Keys)
             {
-                KeyPressEmulator.setKeyPressed(VK_PG1, true);
-            }
-            else if (handsIn.CheckGesture(first) == GestureResult.Succeed)
-            {
-                KeyPressEmulator.setKeyPressed(VK_PG2, true);
-            }
-            else if (panUp.CheckGesture(first) == GestureResult.Succeed)
-            {
-                KeyPressEmulator.setKeyPressed(VK_DWN, true);
-            }
-            else if (panDown.CheckGesture(first) == GestureResult.Succeed)
-            {
-                KeyPressEmulator.setKeyPressed(VK_UP, true);
-            }
-            else if (panRight.CheckGesture(first) == GestureResult.Succeed)
-            {
-                KeyPressEmulator.setKeyPressed(VK_LFT, true);
-            }
-            else if (panLeft.CheckGesture(first) == GestureResult.Succeed)
-            {
-                KeyPressEmulator.setKeyPressed(VK_RGT, true);
+                if (gesture.CheckGesture(first) == GestureResult.Success)
+                {
+                    KeyPressEmulator.setKeyPressed(gestures[gesture], true);
+                    break;
+                }
             }
         }
 

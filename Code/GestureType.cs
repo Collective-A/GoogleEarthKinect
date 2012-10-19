@@ -8,18 +8,9 @@ namespace Kinect.GoogleEarth
         Fail,
 
         // Gesture suceed
-        Succeed,
+        Success,
 
         // Gesture undetermined
         Pausing  
 	}
-
-    public enum GestureType
-    {
-        //Init for Zoom in or out
-        ZoomInInit
-
-
-
-    }
 }

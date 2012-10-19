@@ -15,10 +15,7 @@ namespace kinect_sdk_example
 
         [DllImport("user32.dll")]
         static extern bool PostMessage(IntPtr hWnd, UInt32 Msg, int wParam, int lParam);
-
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
-
+        
         [STAThread]
         public static void setKeyPressed(int key, Boolean pressed)
         {
@@ -26,7 +23,6 @@ namespace kinect_sdk_example
 
             foreach (Process proc in processes)
             {
-                SetForegroundWindow(proc.MainWindowHandle);
                 PostMessage(proc.MainWindowHandle, pressed ? WM_KEYDOWN : WM_KEYUP, key, 0);
             }
 

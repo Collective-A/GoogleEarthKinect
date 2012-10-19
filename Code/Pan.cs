@@ -21,7 +21,7 @@ namespace Kinect.GoogleEarth
             if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ShoulderRight].Position.Y * BaseGesture.PAN_PADDING_SCALE &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y)
             {
-                return GestureResult.Succeed;
+                return GestureResult.Success;
             }
 
             // hands dropped
@@ -42,7 +42,7 @@ namespace Kinect.GoogleEarth
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y && 
                 skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y)
             {
-                return GestureResult.Succeed;
+                return GestureResult.Success;
             }
 
             // hands dropped
@@ -63,7 +63,7 @@ namespace Kinect.GoogleEarth
                 skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y) 
             {
-                return GestureResult.Succeed;
+                return GestureResult.Success;
             }
 
             // hands dropped
@@ -82,9 +82,10 @@ namespace Kinect.GoogleEarth
 
             if (skeleton.Joints[JointType.HandRight].Position.X * BaseGesture.PAN_PADDING_SCALE < skeleton.Joints[JointType.ShoulderRight].Position.X &&
                 skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipRight].Position.Y &&
+                skeleton.Joints[JointType.HandRight].Position.X < skeleton.Joints[JointType.ShoulderLeft].Position.X &&
                 skeleton.Joints[JointType.HandLeft].Position.Y < skeleton.Joints[JointType.HipLeft].Position.Y)
             {
-                return GestureResult.Succeed;
+                return GestureResult.Success;
             }
 
             // hands dropped

@@ -23,7 +23,7 @@ namespace Kinect.GoogleEarth
                     skeleton.Joints[JointType.ElbowRight].Position.Y < skeleton.Joints[JointType.ShoulderRight].Position.Y && // right hand lower than right shoulder
                     skeleton.Joints[JointType.HandRight].Position.X > skeleton.Joints[JointType.ShoulderRight].Position.X) // right hand further out than right shoulder
                 {
-                    return GestureResult.Succeed;
+                    return GestureResult.Success;
                 }
             }
 
@@ -49,7 +49,7 @@ namespace Kinect.GoogleEarth
                     skeleton.Joints[JointType.ElbowLeft].Position.Y < skeleton.Joints[JointType.ShoulderLeft].Position.Y && // left hand lower than left shoulder
                     skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ShoulderLeft].Position.X) // left hand further out than left shoulder
                 {
-                    return GestureResult.Succeed;
+                    return GestureResult.Success;
                 }
             }
 
