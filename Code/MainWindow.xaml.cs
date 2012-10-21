@@ -109,13 +109,13 @@ namespace kinect_sdk_example
 
         private void ClickPan(object sender, System.Windows.RoutedEventArgs e)
         {
-            string panFilename = "jingles.mp4";
+            string panFilename = "pan.mp4";
             CallCommandLine("\"C:\\Program Files\\Windows Media Player\\wmplayer.exe\"", String.Format("/play \"{0}\\{1}\"", mediaPath, panFilename));
         }
 
         private void ClickZoom(object sender, System.Windows.RoutedEventArgs e)
         {
-            string zoomFilename = "jingles.mp4";
+            string zoomFilename = "zoom.mp4";
             CallCommandLine("\"C:\\Program Files\\Windows Media Player\\wmplayer.exe\"", String.Format("/play \"{0}\\{1}\"", mediaPath, zoomFilename));
         }
 
